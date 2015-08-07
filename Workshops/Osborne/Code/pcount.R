@@ -14,19 +14,16 @@ for (n in 1:nDirs){
 }
 
 #Make sure you have formed the array data
-if (exists("mydata") == FALSE){
-  # as done in plot_tuncurve.R
-  mydata <- array(0, c(550, 24, 46))
-  for (n in 1:nDirs){
-    # which are the corresponding thetas?
-    index <- which(theta == n)
-    for (i in 1:length(index)){
-      spks <- round(diturne[index[i], ])
-      spks <- spks[spks > 0]
-      mydata[spks, n, i] <- 1
-    }
+# as done in plot_tuncurve.R
+mydata <- array(0, c(550, 24, 46))
+for (n in 1:nDirs){
+  # which are the corresponding thetas?
+  index <- which(theta == n)
+  for (i in 1:length(index)){
+    spks <- round(dirtune[index[i], ])
+    spks <- spks[spks > 0]
+    mydata[spks, n, i] <- 1
   }
-  
 }
 
 # get an array of the spike counts by direction
@@ -65,12 +62,13 @@ for (n in 1:nDirs){
 # response, for several directions
 
 # empty plot
+print(
 plot(1, type = "n", 
      xlab = 'count', 
      ylab = 'probability', 
      main = 'Conditional count distributions for different directions',
      xlim = c(0, 120),
-     ylim = c(0, 1))
+     ylim = c(0, 1)))
 # now plot several directions
 for (mydir in seq(1, 24, by = 4)){
   points(mids, Pcounts_given_dir[, mydir], 
@@ -81,24 +79,35 @@ for (mydir in seq(1, 24, by = 4)){
 }
 
 
-# THIS STILL NEEDS TRANSLATION
-# cumcounts <- apply(mydata, 1, cumsum)
+# Cumulative sums
+cumcounts <- array(0, dim(mydata))
+for (i in 1:dim(cumcounts)[3]){
+  cumcounts[,,i] <- apply(mydata[,,i], 2, cumsum)
+}
+
+# get the trial-averaged cumulative count for each direction
 # 
-# #get the trial-averaged cumulative count for each direction
-# 
-# mean_cumcounts = zeros(size(cumcounts,1),nDirs);
-# for n=1:nDirs
-#     mean_cumcounts(:,n) = mean(cumcounts(:,n,1:nReps(n)),3);
-# end
-# clear n;
-# 
-# figure;
-# set(gca,'FontSize',14);
-# h=plot(T,mean_cumcounts(T,13),'k-',T,mean_cumcounts(T,15),'b-', ...
-#     T,mean_cumcounts(T,17),'r-',T,mean_cumcounts(T,19),'g-', ...
-#     T,mean_cumcounts(T,11),'b--',T,mean_cumcounts(T,9),'r--', ...
-#     T,mean_cumcounts(T,5),'g--');
-# legend(h,'0 deg','30 deg','60 deg','90 deg','-30 deg','-60 deg','-90 deg');
-# xlabel('time since motion onset (ms)');
-# ylabel('spike count');
-# title('Mean cumulative spike count by direction');
+mean_cumcounts <- matrix(0, dim(cumcounts)[1], nDirs)
+for(n in 1:nDirs){
+  mean_cumcounts[, n] <- rowMeans(cumcounts[, n, 1:nReps[n]])
+  
+}
+# plot a few cumulative distributions
+# first an empty plot
+print(
+  plot(1, type = "n", 
+       xlab = 'time since motion onset (ms)', 
+       ylab = 'spike count', 
+       main = 'Mean cumulative spike count by direction',
+       xlim = c(0, 350),
+       ylim = c(0, 100)))
+
+# now plot several directions
+toplot <- c(5, 9, 11, 13, 15, 17, 19)
+for (i in 1:length(toplot)){
+  points(T, mean_cumcounts[T, toplot[i]],  
+         type = "l",
+         col = i)
+  # add a text for sort-of-legend
+  text(20, 100 - i * 6, paste("angle = ", directions[toplot[i]]), col =  i)
+}

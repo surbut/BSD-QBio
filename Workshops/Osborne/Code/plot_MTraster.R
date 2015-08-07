@@ -29,7 +29,7 @@ for (dind in 1:nDirs){
   counter <- 0
   for (iRep in 1:(nReps[dind])){
     # find the time of the spike
-    spks <- diturne[trials[iRep], ]
+    spks <- dirtune[trials[iRep], ]
     spks <- spks[spks > 0]
     # add it to the data to be plotted
     toplot <- rbind(toplot, 

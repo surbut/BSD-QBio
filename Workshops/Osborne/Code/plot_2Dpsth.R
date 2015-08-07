@@ -15,7 +15,7 @@ for (n in 1:length(directions)){ # 24 directions
   # grab all the repeats for a given direction from the array theta
   index <- which(theta == n)
   for (i in 1:length(index)){ # loop through each trial
-    spks <- round(diturne[index[i], ]) # get the spikes from that trial and round to integer values
+    spks <- round(dirtune[index[i], ]) # get the spikes from that trial and round to integer values
     spks <- spks[spks > 0] # just pick out the positions of the spike from all the 0s
     mydata[spks, n, i] <- 1 # set those elements in data to 1
   }

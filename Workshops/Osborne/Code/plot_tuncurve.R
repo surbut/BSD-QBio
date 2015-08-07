@@ -18,7 +18,7 @@ for (n in 1:nDirs){
   # which are the corresponding thetas?
   index <- which(theta == n)
   for (i in 1:length(index)){
-    spks <- round(diturne[index[i], ]) # make integers
+    spks <- round(dirtune[index[i], ]) # make integers
     spks <- spks[spks > 0] # take only those > 0
     mydata[spks, n, i] <- 1 # set to 1 in the array mydata
   }
@@ -47,7 +47,7 @@ mcounts <- rep(0, nDirs)
 for (n in 1:nDirs){
   index <- which(theta == n)
   for (i in 1:length(index)){
-    spks <- which(round(diturne[index[i], ]) > 0) # WHY DO WE NEED ROUND [??? ASK LESLIE]
+    spks <- which(round(dirtune[index[i], ]) > 0) # WHY DO WE NEED ROUND [??? ASK LESLIE]
     spks <- spks[spks > 45 & spks < 355]
     counts[n, i] <- length(spks)
   }
