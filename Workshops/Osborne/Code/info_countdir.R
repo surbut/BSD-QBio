@@ -1,32 +1,40 @@
+# =============================================
+# Copied from plot_tuncurve.R
+# =============================================
 # load the data
 load("../Data/MTneuron.RData")
 
-# estimate the direction conditioned count distributions
-
-# using the array counts to form the conditional distributions
 # Number of directions
 directions <- as.vector(directions)
 nDirs <- length(directions)
+
 # For each direction, count number of replicates
+# the command rep repeats a certain value a number of times, and creates a vectors
 nReps <- rep(0, nDirs)
 for (n in 1:nDirs){
   nReps[n] <- sum(theta == n)
 }
 
+# create array data that uses a vector of 1s and 0s instead of spike times
+# What is the maximum time?
+maxTime <- round(max(dirtune))
 
-#create array data that uses a vector of 1s and 0s instead of spike times
-# this isn't strictly necessary, but it will come in handy 
-mydata <- array(0, c(550, 24, 46))
+mydata <- array(0, c(maxTime, nDirs, max(nReps))) 
+# Let's fill the array with ones and zeros
+# For each direction
 for (n in 1:nDirs){
   # which are the corresponding thetas?
   index <- which(theta == n)
+  # For each trial
   for (i in 1:length(index)){
-    spks <- round(dirtune[index[i], ])
-    spks <- spks[spks > 0]
-    mydata[spks, n, i] <- 1
+    spks <- round(dirtune[index[i], ]) # make spike times integers
+    spks <- spks[spks > 0] # take only those > 0
+    mydata[spks, n, i] <- 1 # set to 1 in the array mydata
   }
 }
-
+# =============================================
+# END Copied from plot_tuncurve.R
+# =============================================
 
 # create a Poisson shuffled version of the data for the optional part of the
 # exercise

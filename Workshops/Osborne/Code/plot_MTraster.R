@@ -1,7 +1,6 @@
 # load the data
 load("../Data/MTneuron.RData")
 
-
 # Make a raster plot of the spike data
 
 # Number of directions
@@ -46,3 +45,6 @@ plot(toplot$x, toplot$y, col = toplot$color, pch = 16, cex = 0.5,
      xlab = 'Time (s)', ylab = 'Stimulus Direction (degrees)', main = 'Raster Plot of MT neuron',
      xlim = c(0, 400))
 )
+
+# get rid of the big matrix
+rm(toplot)
