@@ -44,11 +44,11 @@
 <h3>
 <a id="contacts" class="anchor" href="#contacts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contacts</h3>
 
-<p>For any issue/question/comment on the instructions on this page, please contact the course directors:</p>
+<p>For any issue/question/comment, please contact the course directors:</p>
 
 <ul>
-<li> <a href="mailto:sepalmer@uchicago.edu?Subject=Help%20BSD%QBio">Stephanie Palmer</a></li>
-<li> <a href="mailto:sallesina@uchicago.edu?Subject=Help%20BSD%QBio">Stefano Allesina</a></li>
+<li> <a href="mailto:sepalmer@uchicago.edu?Subject=Help BSD QBio">Stephanie Palmer</a></li>
+<li> <a href="mailto:sallesina@uchicago.edu?Subject=Help BSD QBio">Stefano Allesina</a></li>
 </ul>
 
 <p><a href="#welcome">Up</a></p>
@@ -57,7 +57,32 @@
 <h3>
 <a id="schedule" class="anchor" href="#schedule" aria-hidden="true"><span class="octicon octicon-link"></span></a>Schedule</h3>
 
-<p>For any issue/question/comment on the instructions on this page, please contact the course directors:</p>
+<p>Here's the <a href="https://github.com/StefanoAllesina/BSD-QBio/raw/master/Schedule/QBio-Schedule.pdf">general schedule</a>.</p>
+
+<p>You can also browse the schedule by group:
+<table style="width:60%">
+  <tr>
+    <td><i><a href=https://github.com/StefanoAllesina/BSD-QBio/raw/master/Schedule/Arabidopsis.pdf>Arabidopsis thaliana</a></i></td>
+    <td><i><a href=https://github.com/StefanoAllesina/BSD-QBio/raw/master/Schedule/Caenorhabditis.pdf>Caenorhabditis elegans</a></i></td>
+    <td><i><a href=https://github.com/StefanoAllesina/BSD-QBio/raw/master/Schedule/Danaus.pdf>Danaus plexippus</a></i></td>
+  </tr>
+  <tr>
+    <td><i><a href=https://github.com/StefanoAllesina/BSD-QBio/raw/master/Schedule/Danio.pdf>Danio rerio</a></i></td>
+    <td><i><a href=https://github.com/StefanoAllesina/BSD-QBio/raw/master/Schedule/Drosophila.pdf>Drosophila melanogaster</a></i></td>
+    <td><i><a href=https://github.com/StefanoAllesina/BSD-QBio/raw/master/Schedule/Escherichia.pdf>Escherichia coli</a></i></td>
+  </tr>
+  <tr>
+    <td><i><a href=https://github.com/StefanoAllesina/BSD-QBio/raw/master/Schedule/Macaca.pdf>Macaca mulatta</a></i></td>
+    <td><i><a href=https://github.com/StefanoAllesina/BSD-QBio/raw/master/Schedule/Mus.pdf>Mus musculus</a></i></td>
+    <td><i><a href=https://github.com/StefanoAllesina/BSD-QBio/raw/master/Schedule/Saccharomyces.pdf>Saccharomyces cerevisiae</a></i></td>
+  </tr>
+  <tr>
+    <td><i><a href=https://github.com/StefanoAllesina/BSD-QBio/raw/master/Schedule/Spinosaurus.pdf>Spinosaurus aegyptiacus</a></i></td>
+    <td><i><a href=https://github.com/StefanoAllesina/BSD-QBio/raw/master/Schedule/Tetrahymena.pdf>Tetrahymena thermophila</a></i></td>
+    <td><i><a href=https://github.com/StefanoAllesina/BSD-QBio/raw/master/Schedule/Tiktaalik.pdf>Tiktaalik roseae</a></i></td>
+  </tr>
+</table>
+</p>
 
 <p><a href="#welcome">Up</a></p>
 
@@ -65,7 +90,26 @@
 <h3>
 <a id="prepare" class="anchor" href="#prepare" aria-hidden="true"><span class="octicon octicon-link"></span></a>Preparing your laptop</h3>
 
-<p>For any issue/question/comment on the instructions on this page, please contact the course directors:</p>
+<p>We are going to start working right away. Therefore, it is very important you <b>prepare your laptop</b> for the Bootcamp before you leave for MBL.</p>
+
+<p>You will work on your laptop all day long. If you don't have a laptop, please <a href="#contacts">contact</a> Stefano or Stephanie right away.</p>
+
+<h4>All platforms</h4>
+<p>We're going to have students using Windows, OSX, and Linux. Whatever your platform, make sure to install:
+
+<ul>
+<li><b>R</bf>: go to <a href="https://cran.rstudio.com/">this page</a>, download the file corresponding to your platform, and install it. (Here's a <a href="https://www.youtube.com/watch?v=5ZbjUEg4a1g">video</a> explaining how to install R and RStudio in Windows; <a href="https://www.youtube.com/watch?v=5rp9bkc68y0">here</a> for Mac OSX)</li>
+<li><b>RStudio</bf>: once installed R, go to <a href="https://www.rstudio.com/products/rstudio/download/">this page</a>, download the installer for your operating system (e.g., <a href="https://download1.rstudio.org/RStudio-0.99.467.exe">Windows</a>, <a href="https://download1.rstudio.org/RStudio-0.99.467.dmg">Mac OSX</a>, <a href="https://download1.rstudio.org/rstudio-0.99.467-i386.deb">Ubuntu</a>), and install it.</li>
+<li>Once installed R and RStudio, open RStudio and install the following packages:
+<ul style="list-style-type:square">
+  <li>ggplot2</li>
+  <li>dplyr</li>
+  <li>...</li>
+</ul>
+You can find instructions on how to install R packages in RStudio <a href="https://www.youtube.com/watch?v=3RWb5U3X-T8">here</a>.
+</li>
+</ul>
+</p>
 
 <p><a href="#welcome">Up</a></p>
 
@@ -73,10 +117,9 @@
 <h3>
 <a id="data" class="anchor" href="#data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Downloading the data</h3>
 
-<p>For any issue/question/comment on the instructions on this page, please contact the course directors:</p>
+<p>Please <a class="zip_download_link" href="https://github.com/StefanoAllesina/BSD-QBio/zipball/master">download the .zip file</a> containing the data, code, handouts, etc. needed for the Bootcamp. Once downloaded the zip file, extract the files in a location you can find easily. For Linux users, we recommend you extract this to your home directory /home/yourname/; for Mac OSX users use /Users/yourname/; for Windows users, put it into your Documents folder.</p>
 
 <p><a href="#welcome">Up</a></p>
-
 
 
 <h3>
