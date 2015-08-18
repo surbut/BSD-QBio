@@ -1,8 +1,7 @@
 # 1) RFmap
 
 # load the data
-load("/Data/MTneuron.RData")
-
+load("~/GitHub/BSD-QBio/Workshops/Osborne/Data/MTneuron.RData")
 
 # see what has been loaded
 print(ls())
