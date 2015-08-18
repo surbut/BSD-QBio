@@ -1,13 +1,14 @@
 # 1) RFmap
 
 # load the data
-load("../Data/MTneuron.RData")
+load("/Data/MTneuron.RData")
+
 
 # see what has been loaded
 print(ls())
 
 # There are four objects:
-# directions is a vector containg directions of motions, from -180 to 165 in steps of 15 degrees
+# directions is a vector containing directions of motion, from -180 to 165 in steps of 15 degrees
 # dirtune is a matrix with 824 rows (trials) and 109 columns (spike times) containing spike time for that trial
 # theta is a vector of 824 elements indexing which element of the directions variable is associated with each trial
 # Finally, RFMap is a 4-dimensional array 10 (y position) x 15 (x position) x 16 (repetitions) x 24 (max number of spikes) containing spike times
