@@ -7,12 +7,12 @@ load("../Data/MTneuron.RData")
 directions <- as.vector(directions)
 nDirs <- length(directions)
 
-# For each direction, count number of replicates
-# the command rep repeats a certain value a number of times, and creates a vectors
-nReps <- rep(0, nDirs)
-for (n in 1:nDirs){
-  nReps[n] <- sum(theta == n)
-}
+# For each direction, count number of repeats
+# the command rep repeats a certain value a number of times, and creates a vector
+  nReps <- rep(0, nDirs)
+  for (n in 1:nDirs){
+    nReps[n] <- sum(theta == n)
+  }
 
 # create array data that uses a vector of 1s and 0s instead of spike times
 # What is the maximum time?
