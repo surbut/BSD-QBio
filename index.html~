@@ -41,7 +41,7 @@
 
 <p>On this page, you find the instructions on how to <a href="#prepare">prepare your laptop</a> so that it's ready for the Bootcamp.</p>
 
-<p>Before you leave for MBL, you should also <a href="#data">download the data and the code</a> needed for the workshops and tutorials.</p>
+<p>You should also <a href="#data">take a look at the datat and the code</a> we will explore in the workshops and tutorials.</p>
 
 <p>You can also see the <a href="#schedule">schedule</a> of the Bootcamp, and find the <a href="#contacts">contact information</a> for the directors.</p>
 
@@ -107,7 +107,7 @@
 <p>You will work on your laptop all day long. If you don't have a laptop, please <a href="#contacts">contact</a> Stefano or Stephanie immediately.</p>
 
 <h5>All platforms</h5>
-<p>We're going to have students using Windows, OSX, and Linux. Whatever your platform, make sure to install:
+<p>We're going to have students using Windows, OSX, and Linux. Whatever your platform, make sure to:
 
 <ul>
 <li><strong>Install R</strong>: go to <a href="https://cran.rstudio.com/">this page</a>, download the file corresponding to your platform, and install it. (Here's a <a href="https://www.youtube.com/watch?v=5ZbjUEg4a1g">video</a> explaining how to install R and RStudio in Windows; <a href="https://www.youtube.com/watch?v=5rp9bkc68y0">here</a> for Mac OSX)</li>
@@ -116,7 +116,7 @@
 <ul style="list-style-type:square">
   <li>ggplot2</li>
   <li>dplyr</li>
-  <li>...</li>
+  <li>deSolve</li>
 </ul>
 You can find instructions on how to install R packages in RStudio <a href="https://www.youtube.com/watch?v=3RWb5U3X-T8">here</a>.
 </li>
