@@ -109,7 +109,7 @@ for (tind in 1:length(Time)){
   #constant, epsilon=2.2E-16, used to prevent dividing by 0
   eps<-.Machine$double.eps
   
-  #Equation 5 in tutorial
+  #Equation 3.5 in tutorial
   #mutual info
   Icount_dir[tind] <- sum(P*log2(P/(jt+eps) +eps))
   
@@ -118,7 +118,7 @@ for (tind in 1:length(Time)){
   Pcount <-t(colSums(P))
   Pcount <-Pcount/sum(Pcount)
   
-  #Equation 1 
+  #Equation 3.1 
   #entropy of cumulative counts: PlogP
   Scount[tind] <- -sum(Pcount*log2(Pcount+eps))
   
@@ -131,11 +131,11 @@ for (tind in 1:length(Time)){
     #normalized PDF of conditional joint distribution of count and direction
     Pcount_given_dir[,dind] <-P[dind,]/(sum(P[dind,])+eps)
     
-    #Equation 2
+    #Equation 3.2
     #entropy of conditional joint distribution
     Scount_given_dir[tind,dind]<- -sum(Pcount_given_dir[,dind]*log2(Pcount_given_dir[,dind]+eps))
     
-    #Equation 5
+    #Equation 3.5
     #mutual info
     I[tind] <- I[tind] + Pdir[dind]*sum(Pcount_given_dir[,dind]*log2(Pcount_given_dir[,dind]/(Pcount +eps) +eps))
   } 
