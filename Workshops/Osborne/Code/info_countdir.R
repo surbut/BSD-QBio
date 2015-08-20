@@ -51,75 +51,130 @@ for (dind in 1:nDirs){
 # use t= 1 to 350 for neuron 1 so we don't consider the spiking after the stimulus is
 # over
 # neuron 2 has 256 time points
-T <- 1:min(dim(mydata)[1], 350) # [WHY THE MIN?]
-cumcounts <- cumsum(mydata[T, , ])
-cumcounts_shuffle=cumsum(data_shuffle(T,:,:),1);
-maxcount = max(max(max(cumcounts)));
+Time <- 1:350
+cumcounts<-array(0,c(350, nDirs, max(nReps)))
+cumcounts_shuffle<-array(0,c(350, nDirs, max(nReps)))
 
-countbins = [0:4:maxcount]; %26 bins for neuron 1
-% how many bins can we use?  could we use 0:maxcount (as many bins as the
-% count)?  it depends on how many repetitions we have and how variable the
-% response is.  If you have time, you can try different binning and see how
-% it changes your results.
-ncountbins = length(countbins);
+for (dind in 1:nDirs){
+  cumcounts[,dind,] <- apply(mydata[Time,dind, ],2,cumsum)
+  cumcounts_shuffle[,dind,] <- apply(data_shuffle[Time,dind, ],2,cumsum)
+  }
+maxcount <-max(cumcounts,cumcounts_shuffle)
 
-probcumcounts = zeros(length(T),nDirs,ncountbins);
-probcumcounts_shuffle = probcumcounts;
-for n=1:length(T);
-for m=1:nDirs;
-probcumcounts(n,m,:) = hist(squeeze(cumcounts(n,m,1:nReps(m))),[countbins])/nReps(m);
-probcumcounts_shuffle(n,m,:) = hist(squeeze(cumcounts_shuffle(n,m,1:nReps(m))),[countbins])/nReps(m);
-end
-end;
+countbins <-seq(0,maxcount+4,4) #26 bins for neuron 1
+# how many bins can we use?  could we use 0:maxcount (as many bins as the
+# count)?  it depends on how many repetitions we have and how variable the
+# response is.  If you have time, you can try different binning and see how
+# it changes your results.
+ncountbins <-length(countbins)-1;
 
-pdir = zeros(nDirs,1); %the probability of each direction is not uniform
-for n=1:nDirs
-pdir(n) = nReps(n)/sum(nReps);
-end
+probcumcounts <- array(0,c(length(Time),nDirs,ncountbins))
+probcumcounts_shuffle <-probcumcounts;
+for (n in 1:length(Time)){
+  for (m in 1:nDirs){
+    probcumcounts[n,m,] <-hist(cumcounts[n,m,1:nReps[m]],breaks=countbins,plot=FALSE)$counts/nReps[m]
+    probcumcounts_shuffle[n,m,] <-hist(cumcounts_shuffle[n,m,1:nReps[m]],breaks=countbins,plot=FALSE)$counts/nReps[m]
+  }
+}
+
+pdir <-array(0,c(nDirs,1)) #the probability of each direction is not uniform
+for (n in 1:nDirs){
+  pdir[n] <-nReps[n]/sum(nReps)
+}
 
 
-% a basic algorithm without finite sample size correction to compute the 
-% mutual information between the cumulative spike count and
-% motion direction over time
+# a basic algorithm without finite sample size correction to compute the 
+# mutual information between the cumulative spike count and
+# motion direction over time
+#initialize arrays
+Icount_dir <-array(0,c(length(Time),1))
+Icount_dir_shuffle <-array(0,c(length(Time),1))
+I <-Icount_dir
+I_shuffle <-I
+Pcount_given_dir <-array(0,c(ncountbins,nDirs))
+Scount<-array(0,length(Time))
+Scount_given_dir<-array(0,c(length(Time),nDirs))
+Pcount_given_dir_shuffle <-array(0,c(ncountbins,nDirs))
+Scount_shuffle<-array(0,length(Time))
+Scount_given_dir_shuffle<-array(0,c(length(Time),nDirs))
 
-Icount_dir = zeros(length(T),1);
-I = Icount_dir;
-I_shuffle = I;
-Pcount_given_dir = zeros(ncountbins,nDirs);
 
-for tind = 1:length(T)     
-P = reshape(probcumcounts(tind,:,:),nDirs,ncountbins);
-P = P./sum(sum(P));
-Icount_dir(tind) = sum(sum(P.*log2(P./(sum(P,2)*sum(P,1)+eps) +eps)));
+for (tind in 1:length(Time)){
+  #find probability distribution (PDF) of cumulative count for each time step across all directions
+  P<-probcumcounts[tind,,]
+  #normalize
+  P<- P/sum(P)
+  #joint probability distribution, computed from P(theta) and P(count)
+  jt<-(t(rowSums(P)) %o% colSums(P))[1,,]
+  #constant, epsilon=2.2E-16, used to prevent dividing by 0
+  eps<-.Machine$double.eps
+  
+  #Equation 5 in tutorial
+  #mutual info
+  Icount_dir[tind] <- sum(P*log2(P/(jt+eps) +eps))
+  
+  #or less compactly
+  #normalized PDF of cumulative counts
+  Pcount <-t(colSums(P))
+  Pcount <-Pcount/sum(Pcount)
+  
+  #Equation 1 
+  #entropy of cumulative counts: PlogP
+  Scount[tind] <- -sum(Pcount*log2(Pcount+eps))
+  
+  #normalized PDF of directions
+  Pdir <- rowSums(P)
+  Pdir <- Pdir/sum(Pdir)
+  
+  for (dind in 1:nDirs){
+    
+    #normalized PDF of conditional joint distribution of count and direction
+    Pcount_given_dir[,dind] <-P[dind,]/(sum(P[dind,])+eps)
+    
+    #Equation 2
+    #entropy of conditional joint distribution
+    Scount_given_dir[tind,dind]<- -sum(Pcount_given_dir[,dind]*log2(Pcount_given_dir[,dind]+eps))
+    
+    #Equation 5
+    #mutual info
+    I[tind] <- I[tind] + Pdir[dind]*sum(Pcount_given_dir[,dind]*log2(Pcount_given_dir[,dind]/(Pcount +eps) +eps))
+  } 
+  
+  #compute Poisson shuffle as above
+  P_shuffle<-probcumcounts_shuffle[tind,,]
+  P_shuffle<- P_shuffle/sum(P_shuffle)
+  jt_shuffle<-(t(rowSums(P_shuffle))%o% colSums(P_shuffle))[1,,]
+  Icount_dir_shuffle[tind] <- sum(P_shuffle*log2(P_shuffle/(jt_shuffle+eps) +eps))
+}
 
-P_shuff = reshape(probcumcounts_shuffle(tind,:,:),nDirs,ncountbins);
-P_shuff = P_shuff./sum(sum(P_shuff));
-I_shuffle(tind) = sum(sum(P_shuff.*log2(P_shuff./(sum(P_shuff,2)*sum(P_shuff,1)+eps) +eps)));
+#set up plot axes
+print(
+  plot(Time,I,
+       xlab = 'time from motion onset (ms)',
+       ylab = 'information (bits)',
+       main = 'Mutual information between count and direction',
+       type="n"))
 
-%or less compactly
-Pcount = sum(P,1)';
-Pcount = Pcount/sum(Pcount);
-Scount(tind) = -sum(Pcount.*log2(Pcount+eps));
-Pdir = sum(P,2)';
-Pdir = Pdir/sum(Pdir);
-for dind = 1:nDirs
-Pcount_given_dir(:,dind) = P(dind,:)'./(sum(P(dind,:)')+eps);
-                                            Scount_given_dir(tind,dind)= -sum(Pcount_given_dir(:,dind).*log2(Pcount_given_dir(:,dind)+eps));
-                                            I(tind) = I(tind) + ...
-                                            Pdir(dind)*sum(Pcount_given_dir(:,dind).*log2(Pcount_given_dir(:,dind)./(Pcount +eps) + eps));
-                                            end
-                                            
-                                            end;
-                                            
-                                            %Make a figure
-                                            
-                                            figure;
-                                            set(gca,'FontSize',14);
-                                            h = plot(T,I,'k',T,I_shuffle,'r');
-                                            legend(h,'neuron','Poisson model');
-                                            xlabel('time from motion onset (ms)');
-                                            ylabel('information (bits)');
-                                            title('Mutual information between count and direction');
+#plot information from neuron
+#this should look like Fig 3C from Osborne et al. 2004, in the Readings folder
+print(
+  lines(Time, # x-axis
+       I, #y-axis
+       col="black",
+       lwd=2
+       )
+  )
+#plot information from Poisson-shuffled neuron
+print(
+  lines(
+       Time, # x-axis
+       I_shuffle, #y-axis
+       col="red",lwd=2
+  )
+)
+#add a legend
+legend(x="bottomright",y=NULL,c("neuron","Poisson model"),lty=c(1,1),lwd=c(2,2),col = c("black","red"))
+
                                             
                                             
                                             
