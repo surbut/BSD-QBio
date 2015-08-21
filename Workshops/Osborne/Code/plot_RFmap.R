@@ -26,8 +26,8 @@ for (yind  in 1:dim(numspks)[1]){
     # in the RFmap at each grid location. 
     # Note that RFmap[yind, xind, , ] is a matrix. We just count how
     # many values in the matrix are not zero, and store the value in numspks[yind,xind]
-    
-    numspks[yind, xind] <- sum(RFmap[yind, xind, , ] != 0)
+    inds <- which(RFmap[yind,xind,,] > 45)
+    numspks[yind, xind] <- length(inds)
   }
 }
 
@@ -55,18 +55,18 @@ image(x, y, numspks / nTrials,
             main = "RF map of an MT neuron", 
             xlab = "degrees", 
             ylab = "degrees",
-            col = topo.colors(27))
+            col = rev(rainbow(27,start=0,end=0.7))
 )
-
+)
 # a fancier plot can be done using 
 # ?filled.contour
 # wich automatically smooths the data
 print(
-filled.contour(x, y, numspks / nTrials, nlevels = 25,
+filled.contour(x, y, numspks/nTrials, nlevels = 25,
                plot.title = title(main = "RF map of an MT neuron",
                                   xlab = "degrees", ylab = "degrees"),
                # choose colors
-               col = topo.colors(27),
+               col = rev(rainbow(28,start=0,end=0.7)),
                # add a point
                plot.axes={
                  axis(1); # plot the x-axis

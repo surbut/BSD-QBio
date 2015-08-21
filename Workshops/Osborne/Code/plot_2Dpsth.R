@@ -45,17 +45,17 @@ for (n in 1:nDirs){
 # Note that PSTH has units of spikes/per 1ms time bins.  To get spikes/s
 # multiply by 1000 ms/s
 print(
-filled.contour(directions, # its nice to have real units like degrees!
+filled.contour(
+               1:maxTime, # x-axis
+               directions, # its nice to have real units like degrees!
                                         # these numbers are in the vector called directions 
                                         # in your workspace
-               1:maxTime, # y-axis
-               (t(PSTH)[,maxTime:1]) * 1000, # transpose and invert y 
-                                          # so that time starts at the bottom of the plot
+               (PSTH) * 1000, 
                nlevels = 30, # number of different colors to use
                plot.title = title(main = 'PSTH vs direction for an MT neuron',
-                                  xlab = 'direction (degrees)', 
-                                  ylab = 'time since motion onset (ms)'),
+                                  xlab =  'time since motion onset (ms)'),
+                                  ylab = 'direction (degrees)',
                # choose colors
-               col = topo.colors(31)
+               col = rev(rainbow(28,start=0,end=2/3))
 )
 )
