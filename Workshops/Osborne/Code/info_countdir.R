@@ -47,7 +47,7 @@ for (dind in 1:nDirs){
   }
 }
 
-
+#For Exercise 5
 # use t= 1 to 350 for neuron 1 so we don't consider the spiking after the stimulus is
 # over
 # neuron 2 has 256 time points
@@ -60,6 +60,8 @@ for (dind in 1:nDirs){
   cumcounts_shuffle[,dind,] <- apply(data_shuffle[Time,dind, ],2,cumsum)
   }
 maxcount <-max(cumcounts,cumcounts_shuffle)
+
+
 
 countbins <-seq(0,maxcount+4,4) #26 bins for neuron 1
 # how many bins can we use?  could we use 0:maxcount (as many bins as the
@@ -145,6 +147,32 @@ for (tind in 1:length(Time)){
   P_shuffle<- P_shuffle/sum(P_shuffle)
   jt_shuffle<-(t(rowSums(P_shuffle))%o% colSums(P_shuffle))[1,,]
   Icount_dir_shuffle[tind] <- sum(P_shuffle*log2(P_shuffle/(jt_shuffle+eps) +eps))
+  #or less compactly
+  #normalized PDF of cumulative counts
+  Pcount_shuffle <-t(colSums(P_shuffle))
+  Pcount_shuffle <-Pcount/sum(Pcount_shuffle)
+  
+  #Equation 3.1 
+  #entropy of cumulative counts: PlogP
+  Scount_shuffle[tind] <- -sum(Pcount_shuffle*log2(Pcount_shuffle+eps))
+  
+  #normalized PDF of directions
+  Pdir_shuffle <- rowSums(P_shuffle)
+  Pdir_shuffle <- Pdir_shuffle/sum(Pdir_shuffle)
+  
+  for (dind in 1:nDirs){
+    
+    #normalized PDF of conditional joint distribution of count and direction
+    Pcount_given_dir_shuffle[,dind] <-P_shuffle[dind,]/(sum(P_shuffle[dind,])+eps)
+    
+    #Equation 3.2
+    #entropy of conditional joint distribution
+    Scount_given_dir_shuffle[tind,dind]<- -sum(Pcount_given_dir_shuffle[,dind]*log2(Pcount_given_dir_shuffle[,dind]+eps))
+    
+    #Equation 3.5
+    #mutual info
+    I_shuffle[tind] <- I_shuffle[tind] + Pdir_shuffle[dind]*sum(Pcount_given_dir_shuffle[,dind]*log2(Pcount_given_dir_shuffle[,dind]/(Pcount_shuffle +eps) +eps))
+  } 
 }
 
 #set up plot axes

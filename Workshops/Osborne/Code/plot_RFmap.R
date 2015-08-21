@@ -1,7 +1,7 @@
 # 1) RFmap
 
 # load the data
-load("~/GitHub/BSD-QBio/Workshops/Osborne/Data/MTneuron.RData")
+load("../Data/MTneuron.RData")
 
 # see what has been loaded
 print(ls())
@@ -32,9 +32,9 @@ for (yind  in 1:dim(numspks)[1]){
 }
 
 # To map the locations, we create a vector from -14 degrees in the visual field to 14 in steps of 2 degrees
-x <- seq(-14, 14, by = 2) 
+x <- seq(-22, 6, by = 2) 
 # We do the same for the y axis, but now we're limited to -9, +9
-y <- seq(-9, 9, by = 2) 
+y <- seq(-2, 16, by = 2) 
 
 # For plotting, we want to modify the data slightly:
 # first, now numspks has y coordinates in the rows, 
@@ -73,6 +73,6 @@ filled.contour(x, y, numspks / nTrials, nlevels = 25,
                  axis(2); # plot the y axis
                  # The center of the visual field of the monkey was at (7.5, -7.5)
                  # Let's put a + sign to mark the spot
-                 points(7.5, -7.5, pch = "+", cex = 2, col = "white", font = 2)}
+                 points(0, 0, pch = "+", cex = 2, col = "white", font = 2)}
                )
 )
