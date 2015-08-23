@@ -127,7 +127,7 @@ Notice that $p_2>p_1$ (be careful to inspect the axes labels here)  This makes s
 
 **Question:**  What is the equation decribing this relationship?
 
-The relationship exists because there are only two alleles - and so their proportions must sum to 1.  The linear relatiosnhip you found exists because of this constraint. It also provides a nice check on our work (if $p_1$ and $p_2$ didn't sum to 1 it would suggest somethings is wrong with our code!).  
+The relationship exists because there are only two alleles - and so their proportions must sum to 1.  The linear relationship you found exists because of this constraint. It also provides a nice check on our work (if $p_1$ and $p_2$ didn't sum to 1 it would suggest something is is wrong with our code!).  
 
 ### Plotting genotype on allele frequencies
 
@@ -142,7 +142,7 @@ ggplot(gTidy)+geom_point(aes(x=p1,y=Genotype.Proportion,color=variable,shape=var
 
 ```
 
-Now let's look at the graph produced.  There is some scatter in the relationship between genotype proportion and allele frequency for any given genotype, but at the same time there are some very regular underlying relationship between these variables. 
+Now let's look at the graph produced.  There is some scatter in the relationship between genotype proportion and allele frequency for any given genotype, but at the same time there is a very regular underlying relationship between these variables. 
 
 **Question:** What are approximate relationships between $p_{11}$ vs $p_1$, $p_{12}$ vs $p_1$, and $p_22$ vs $p_1$?  (Hint: These look like parabolas, which suggests are some very simple quadratic functions of $p_1$). 
 
